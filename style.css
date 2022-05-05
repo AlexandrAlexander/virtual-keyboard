@@ -1,4 +1,87 @@
-div {
-  color: red;
-  background-color:aqua;
+.wrapper {
+  margin: 0 auto;
+  font-family: "Trebuchet MS", "Helvetica", sans-serif;
+}
+
+.title {
+  margin: 10px auto;
+  text-align: center;
+}
+
+.title {
+  font-size: 30px;
+  color: rgba(101,134,177,0.8);
+  -webkit-text-stroke: 1px rgba(114,177,101,0.8);
+  -webkit-text-fill-color: rgba(101,134,177,0.8);
+}
+
+.textarea {
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 10px auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444;
+}
+
+.keyboard {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  background: #888888;
+  border: 3px solid #222222;
+  border-radius: 5px;
+}
+
+.keyboard .keysRow {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 5px;
+}
+
+.keyboard .keyWrapper {
+  width: 40px;
+  height: 40px;
+  font-weight: 500;
+  line-height: 40px;
+  text-align: center;
+  color: #ffffff;
+  background: #444444;
+  border-radius: 3px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.keyboard .keyWrapper:hover {
+    background: #79aa89;
+}
+
+.hidden {
+  display: none;
+}
+
+.keyboard .Tab,
+
+.keyboard .AltLeft,
+.keyboard .AltRight,
+.keyboard .ShiftLeft {
+  width: 60px;
+}
+
+.keyboard .CapsLock,
+.keyboard .ControlLeft,
+.keyboard .ControlRight {
+  width: 80px;
+}
+
+.keyboard .Backspace,
+.keyboard .ShiftRight,
+.keyboard .Enter,
+.keyboard .Space {
+  width: 100px;
+  flex-grow: 1;
 }
