@@ -28,12 +28,13 @@
   };
 
   const layouts = {
-    Rus: rusLayoyt,
-    En: enLayoyt,
+    rus: rusLayoyt,
+    eng: enLayoyt,
   };
 
-  const defaultLayout = 'Rus';
-  const activeLayout = defaultLayout;
+  const defaultLayout = 'rus';
+  let activeLayout = localStorage.lang || defaultLayout;
+  let CapsLockState = false;
 
   function component(type, classes = [], id = '', content = '') {
     const element = document.createElement(type);
@@ -51,10 +52,22 @@
     return element;
   }
 
-  function createKeyboard(keyboardWrapper) {
+  function toggleLang() {
+    activeLayout = activeLayout === 'eng' ? 'rus' : 'eng';
+  }
+
+  function toggleCase() {
+    const keyboard = document.getElementById('keyboard');
+    const keys = keyboard.querySelectorAll('span');
+    keys.forEach((keyElement) => keyElement.classList.toggle('hidden'));
+  }
+
+  function createKeyboard() {
+    localStorage.setItem('lang', activeLayout);
+    const keyboard = document.getElementById('keyboard');
     const layoutKeys = layouts[activeLayout].keys;
     keyboardKeys.forEach((keysRow, rowIndex) => {
-      const keysRowNode = keyboardWrapper.appendChild(component('div', ['keysRow']));
+      const keysRowNode = keyboard.appendChild(component('div', ['keysRow']));
       keysRow.forEach((key, keyIndex) => {
         const keyWrapper = keysRowNode.appendChild(component('div', ['keyWrapper', key]));
         const layoutKey = layoutKeys[rowIndex][keyIndex];
@@ -67,9 +80,99 @@
     });
   }
 
+  function changeKeyboardLayout() {
+    localStorage.setItem('lang', activeLayout);
+    const keyboard = document.getElementById('keyboard');
+    const layoutKeys = layouts[activeLayout].keys;
+    keyboardKeys.forEach((keysRow, rowIndex) => {
+      keysRow.forEach((key, keyIndex) => {
+        const [keyWrapper] = keyboard.getElementsByClassName(key);
+        const keys = keyWrapper.querySelectorAll('span');
+        const layoutKey = layoutKeys[rowIndex][keyIndex];
+        if (layoutKey) {
+          layoutKey.forEach((element, index) => {
+            keys[index].innerHTML = element;
+          });
+        }
+      });
+    });
+  }
+
+  function addActiveState(currentElement) {
+    return currentElement && currentElement.classList.add('active');
+  }
+
+  function removeActiveState(element) {
+    return element && element.classList.contains('active') && element.classList.remove('active');
+  }
+
+  function keyDownHandler(e) {
+    function findDeep(element, target) {
+      if (Array.isArray(element)) {
+        return element.find((subElement) => findDeep(subElement, target));
+      }
+      return element === target;
+    }
+
+    if (!keyboardKeys.find((element) => findDeep(element, e.code))) {
+      return;
+    }
+
+    e.preventDefault();
+    const keyboard = document.getElementById('keyboard');
+    const [currentElement] = keyboard.getElementsByClassName(e.code);
+
+    addActiveState(currentElement);
+
+    if (e.code === 'ShiftLeft') {
+      if (e.repeat) {
+        return;
+      }
+      toggleCase();
+    }
+    if (e.code === 'CapsLock') {
+      if (e.repeat) {
+        return;
+      }
+      CapsLockState = !CapsLockState;
+      toggleCase();
+    }
+    if ((e.code === 'AltLeft' && e.shiftKey) || (e.code === 'ShiftLeft' && e.altKey)) {
+      toggleLang();
+      changeKeyboardLayout();
+    }
+  }
+
+  function keyUpHandler(e) {
+    const keyboard = document.getElementById('keyboard');
+    const [currentElement] = keyboard.getElementsByClassName(e.code);
+
+    if (e.code === 'ShiftLeft') {
+      toggleCase();
+    }
+    if (e.code === 'CapsLock' && CapsLockState) {
+      return;
+    }
+    removeActiveState(currentElement);
+  }
+
+  function mouseDownHandler() {
+
+  }
+
+  function mouseUpHandler() {
+
+  }
+
   const wrapper = document.body.appendChild(component('div', ['wrapper']));
   wrapper.appendChild(component('p', ['title'], 'title', 'RSS Виртуальная клавиатура'));
   wrapper.appendChild(component('textarea', ['textarea'], 'textarea'));
-  const keyboard = wrapper.appendChild(component('div', ['keyboard'], 'keyboard'));
-  createKeyboard(keyboard);
+  wrapper.appendChild(component('div', ['keyboard'], 'keyboard'));
+  createKeyboard();
+  wrapper.appendChild(component('p', ['language'], 'language', 'Для переключения языка комбинация: левыe shift + alt'));
+
+  document.addEventListener('keyup', keyUpHandler);
+  document.addEventListener('keydown', keyDownHandler);
+  document.addEventListener('mouseup', mouseUpHandler);
+  document.addEventListener('mousedown', mouseDownHandler);
 })();

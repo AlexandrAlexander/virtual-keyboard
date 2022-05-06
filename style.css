@@ -3,7 +3,7 @@
   font-family: "Trebuchet MS", "Helvetica", sans-serif;
 }
 
-.title {
+.title, .language {
   margin: 10px auto;
   text-align: center;
 }
@@ -54,10 +54,16 @@
   border-radius: 3px;
   cursor: pointer;
   user-select: none;
+  transition: border-radius 0.3s, background-color 0.3s;
 }
 
 .keyboard .keyWrapper:hover {
     background: #79aa89;
+}
+
+.keyboard .keyWrapper.active {
+  background-color: #2cfd72;
+  border-radius: 50px;
 }
 
 .hidden {
