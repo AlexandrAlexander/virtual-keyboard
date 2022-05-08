@@ -32,6 +32,8 @@
     eng: enLayoyt,
   };
 
+  const specialKeys = ['Backspace', 'Tab', 'Enter', 'CapsLock', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight', 'MetaLeft', 'Delete'];
+
   const defaultLayout = 'rus';
   let activeLayout = localStorage.lang || defaultLayout;
   let CapsLockState = false;
@@ -52,6 +54,13 @@
     return element;
   }
 
+  function findDeep(element, target) {
+    if (Array.isArray(element)) {
+      return element.find((subElement) => findDeep(subElement, target));
+    }
+    return element === target;
+  }
+
   function toggleLang() {
     activeLayout = activeLayout === 'eng' ? 'rus' : 'eng';
   }
@@ -62,6 +71,16 @@
     keys.forEach((keyElement) => keyElement.classList.toggle('hidden'));
   }
 
+  function getKeyInCase(key, textContent) {
+    let result = textContent;
+    if ((CapsLockState && key.classList.contains('shiftLayout')) || (!CapsLockState && !key.classList.contains('shiftLayout'))) {
+      result = textContent.toLowerCase();
+    } else {
+      result = textContent.toUpperCase();
+    }
+    return result;
+  }
+
   function createKeyboard() {
     localStorage.setItem('lang', activeLayout);
     const keyboard = document.getElementById('keyboard');
@@ -69,12 +88,11 @@
     keyboardKeys.forEach((keysRow, rowIndex) => {
       const keysRowNode = keyboard.appendChild(component('div', ['keysRow']));
       keysRow.forEach((key, keyIndex) => {
-        const keyWrapper = keysRowNode.appendChild(component('div', ['keyWrapper', key]));
+        const keyWrapper = keysRowNode.appendChild(component('div', ['keyWrapper', key], key));
         const layoutKey = layoutKeys[rowIndex][keyIndex];
         if (layoutKey) {
-          layoutKey.forEach((element, index) => {
-            keyWrapper.appendChild(component('span', [index ? 'hidden' : ''], '', element));
-          });
+          keyWrapper.appendChild(component('span', [], '', layoutKey[0]));
+          keyWrapper.appendChild(component('span', ['shiftLayout', 'hidden'], '', layoutKey[1]));
         }
       });
     });
@@ -91,7 +109,11 @@
         const layoutKey = layoutKeys[rowIndex][keyIndex];
         if (layoutKey) {
           layoutKey.forEach((element, index) => {
-            keys[index].innerHTML = element;
+            if (specialKeys.includes(key)) {
+              keys[index].innerHTML = element;
+            } else {
+              keys[index].innerHTML = getKeyInCase(keys[index], element);
+            }
           });
         }
       });
@@ -107,21 +129,14 @@
   }
 
   function keyDownHandler(e) {
-    function findDeep(element, target) {
-      if (Array.isArray(element)) {
-        return element.find((subElement) => findDeep(subElement, target));
-      }
-      return element === target;
-    }
-
     if (!keyboardKeys.find((element) => findDeep(element, e.code))) {
       return;
     }
 
     e.preventDefault();
+
     const keyboard = document.getElementById('keyboard');
     const [currentElement] = keyboard.getElementsByClassName(e.code);
-
     addActiveState(currentElement);
 
     if (e.code === 'ShiftLeft') {
@@ -135,7 +150,7 @@
         return;
       }
       CapsLockState = !CapsLockState;
-      toggleCase();
+      changeKeyboardLayout();
     }
     if ((e.code === 'AltLeft' && e.shiftKey) || (e.code === 'ShiftLeft' && e.altKey)) {
       toggleLang();
@@ -169,6 +184,7 @@
   wrapper.appendChild(component('textarea', ['textarea'], 'textarea'));
   wrapper.appendChild(component('div', ['keyboard'], 'keyboard'));
   createKeyboard();
+  wrapper.appendChild(component('p', ['description'], 'description', 'Клавиатура создана в операционной системе Windows'));
   wrapper.appendChild(component('p', ['language'], 'language', 'Для переключения языка комбинация: левыe shift + alt'));
 
   document.addEventListener('keyup', keyUpHandler);

@@ -3,16 +3,14 @@
   font-family: "Trebuchet MS", "Helvetica", sans-serif;
 }
 
-.title, .language {
+.title, .description, .language {
   margin: 10px auto;
   text-align: center;
 }
 
 .title {
   font-size: 30px;
-  color: rgba(101,134,177,0.8);
-  -webkit-text-stroke: 1px rgba(114,177,101,0.8);
-  -webkit-text-fill-color: rgba(101,134,177,0.8);
+  color: #444444;
 }
 
 .textarea {
@@ -32,8 +30,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  background: #888888;
-  border: 3px solid #222222;
+  background: #bbbbbb;
+  border: 3px solid #505050;
   border-radius: 5px;
 }
 
@@ -49,8 +47,8 @@
   font-weight: 500;
   line-height: 40px;
   text-align: center;
-  color: #ffffff;
-  background: #444444;
+  background: #ffffff;
+  border: 1px solid;
   border-radius: 3px;
   cursor: pointer;
   user-select: none;
@@ -58,11 +56,11 @@
 }
 
 .keyboard .keyWrapper:hover {
-    background: #79aa89;
+    background: #bFEFFF;
 }
 
 .keyboard .keyWrapper.active {
-  background-color: #2cfd72;
+  background-color: #00bfff;
   border-radius: 50px;
 }
 
@@ -71,7 +69,6 @@
 }
 
 .keyboard .Tab,
-
 .keyboard .AltLeft,
 .keyboard .AltRight,
 .keyboard .ShiftLeft {
@@ -90,4 +87,25 @@
 .keyboard .Space {
   width: 100px;
   flex-grow: 1;
+}
+
+.keyboard .Tab,
+.keyboard .AltLeft,
+.keyboard .AltRight,
+.keyboard .ShiftLeft,
+.keyboard .CapsLock,
+.keyboard .ControlLeft,
+.keyboard .ControlRight,
+.keyboard .Backspace,
+.keyboard .ShiftRight,
+.keyboard .Enter {
+  background: #eeeee0;
+}
+
+.keyboard .CapsLockOn {
+  text-transform: uppercase;
+}
+
+.keyboard .shiftLayout.CapsLockOn {
+  text-transform: lowercase;
 }
