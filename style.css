@@ -1,0 +1,119 @@
+.wrapper {
+  margin: 0 auto;
+  font-family: "Trebuchet MS", "Helvetica", sans-serif;
+}
+
+.title, .description, .language {
+  margin: 10px auto;
+  text-align: center;
+}
+
+.title {
+  font-size: 30px;
+  color: #444444;
+}
+
+.textarea {
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 10px auto 10px;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444;
+}
+
+.keyboard {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  background: #bbbbbb;
+  border: 3px solid #505050;
+  border-radius: 5px;
+}
+
+.keyboard .keysRow {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 5px;
+}
+
+.keyboard .keyWrapper {
+  width: 40px;
+  height: 40px;
+  font-weight: 500;
+  line-height: 40px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid;
+  border-radius: 3px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-radius 0.3s, background-color 0.3s;
+}
+
+.keyboard .keyWrapper:hover {
+    background: #bFEFFF;
+}
+
+.keyboard .keyWrapper.active {
+  background-color: #00bfff;
+  border-radius: 50px;
+}
+
+.hidden {
+  display: none;
+}
+
+.keyboard .Tab,
+.keyboard .AltLeft,
+.keyboard .ShiftLeft,
+.keyboard .AltRight,
+.keyboard .ControlRight {
+  width: 60px;
+}
+
+.keyboard .CapsLock,
+.keyboard .ControlLeft {
+  width: 80px;
+}
+
+.keyboard .Backspace,
+.keyboard .ShiftRight,
+.keyboard .Enter,
+.keyboard .Space {
+  width: 100px;
+  flex-grow: 1;
+}
+
+.keyboard .Tab,
+.keyboard .AltLeft,
+.keyboard .AltRight,
+.keyboard .ShiftLeft,
+.keyboard .CapsLock,
+.keyboard .ControlLeft,
+.keyboard .ControlRight,
+.keyboard .Backspace,
+.keyboard .ShiftRight,
+.keyboard .Enter {
+  background: #eeeee0;
+}
+
+.keyboard .ArrowUp,
+.keyboard .ArrowLeft,
+.keyboard .ArrowRight,
+.keyboard .ArrowDown {
+  background: #444444;
+  color: #eeeee0;
+}
+
+.keyboard .CapsLockOn {
+  text-transform: uppercase;
+}
+
+.keyboard .shiftLayout.CapsLockOn {
+  text-transform: lowercase;
+}
