@@ -70,14 +70,14 @@
 
 .keyboard .Tab,
 .keyboard .AltLeft,
+.keyboard .ShiftLeft,
 .keyboard .AltRight,
-.keyboard .ShiftLeft {
+.keyboard .ControlRight {
   width: 60px;
 }
 
 .keyboard .CapsLock,
-.keyboard .ControlLeft,
-.keyboard .ControlRight {
+.keyboard .ControlLeft {
   width: 80px;
 }
 
@@ -100,6 +100,14 @@
 .keyboard .ShiftRight,
 .keyboard .Enter {
   background: #eeeee0;
+}
+
+.keyboard .ArrowUp,
+.keyboard .ArrowLeft,
+.keyboard .ArrowRight,
+.keyboard .ArrowDown {
+  background: #444444;
+  color: #eeeee0;
 }
 
 .keyboard .CapsLockOn {
